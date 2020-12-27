@@ -1,38 +1,81 @@
+@font-face{
+  src : url(./font.ttf);
+  font-family: 'font';
+}
+
 .App {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.abs {
+  position: absolute;
+  z-index: 9999;
+}
+
+table,tr,tr{
+  border: solid 1px black;
+}
+
+header{
+  background-color: skyblue;
+  height: 50px;
+  line-height: 50px;
+}
+
+.rightForm {
+  position: fixed;
+  float: right;
+  width: 20vw;
+  height: 100vh;
+}
+
+.register {
+  width: 200px;
+  margin : 5px;
+  border: black solid 1px;
+}
+
+input{
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+button{
+  font-family: 'Maple';
+  border-radius: 5px;
+  background-color: #c6f4ffb7;
+  font: 800;
+  margin : 5px;
+  width: 5em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.regi-header {
+  padding: 5px;
+  font-size: large;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.mainCal {
+  max-width: 700px;
+  width: 100% !important;
 }
 
-.App-link {
-  color: #61dafb;
+.main-view {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  margin-top: 25px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.maintile {
+  text-align: left !important;
+  border: 1px solid #00000031 !important;
+  border-radius: 0px;
+  /* padding: 0px !important; */
+  height: 7em;
+  /* display: flex; */
+  margin-top: 5px;
+  display: grid;
 }
