@@ -3,6 +3,7 @@ const fs = require('fs');
 const json = JSON.parse(fs.readFileSync('./config.json'));
 const schedule = require('node-schedule');
 
+const homepage = json.homepage;
 const hookurl = json.hookurl;
 const mattermost = new Mattermost(hookurl);
 
@@ -14,9 +15,9 @@ function base64_encode(file) {
 module.exports = {
     init(data) {
         this.birthdata = data;
-        // this.send_month_birth();
-        // this.send_day_birth();
-        
+        this.send_month_birth();
+        this.send_day_birth();
+
         const scheduleOfDay = '5 9 * * 1-5';
         schedule.scheduleJob(scheduleOfDay, () => this.send_day_birth());
 
@@ -48,7 +49,6 @@ module.exports = {
     send_month_birth() {
         const today = new Date();
         const month = today.getMonth();
-        console.log(this);
         const people = this.birthdata.filter(e => new Date(e[2]).getMonth() == month);
         people.sort((a,b) => {
             const Adate = new Date(a[2]);
@@ -64,7 +64,6 @@ module.exports = {
             return 0;
         })
 
-        console.log(people);
         let msg = '';
         if(people.length > 0) {
         msg += "# 이번 달의 생일자입니다 \n";
@@ -79,6 +78,7 @@ module.exports = {
             msg += '# 이번 달은 생일자가 없습니다 ㅜ_ㅜ';
         }
 
+        msg += `[페이지 보기](${homepage})`
         this.send(msg);
     },
 
@@ -126,7 +126,9 @@ module.exports = {
                     const newDate = new Date(element[2]);
                     msg += '|' + element[1] + '|' + (newDate.getMonth() + 1) + '월 ' + newDate.getDate() + '일' + '\n';
                 });
-                this.send(msg);
+            
+            msg += `[페이지 보기](${homepage})`
+            this.send(msg);
         } 
     }
 }

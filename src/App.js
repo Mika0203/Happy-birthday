@@ -40,7 +40,7 @@ function MainView({ birthData }) {
       const day = new Date(e[2]).getDate();
       if (month === _month && day === _day) {
         list.push(
-          <div key={e[1]}><img width='12' height='12' alt='cake' src="./img/cake.png" /> {e[1]}</div>);
+          <div key={e[1]}><img width='15' height='15' alt='cake' src="./img/cake.png" /> {e[1]}</div>);
       }
     });
     return list;
@@ -66,110 +66,110 @@ function MainView({ birthData }) {
   </div>
 }
 
-function RegisterForm({ setBirthData }) {
-  const [date, onChange] = useState(new Date('1990/01/01'));
-  const [isCalendar, toggleCalendar] = useState(false);
-  const [isSolar, setSolar] = useState(true);
-  const [nickname, setNickname] = useState('');
-  const calendarRef = useRef();
+// function RegisterForm({ setBirthData }) {
+//   const [date, onChange] = useState(new Date('1990/01/01'));
+//   const [isCalendar, toggleCalendar] = useState(false);
+//   const [isSolar, setSolar] = useState(true);
+//   const [nickname, setNickname] = useState('');
+//   const calendarRef = useRef();
 
-  useEffect(() => {
-    window.addEventListener('click', e => {
-      if(calendarRef.current){
-        calendarRef.current.contains(e.target) 
-      }
+//   useEffect(() => {
+//     window.addEventListener('click', e => {
+//       if(calendarRef.current){
+//         calendarRef.current.contains(e.target) 
+//       }
 
-      if(e.target.id === 'birthinput')
-        return;
+//       if(e.target.id === 'birthinput')
+//         return;
 
-      if(calendarRef.current){
-        console.log(!e.target.classList.contains('react-calendar__tile'))
-        console.log(!calendarRef.current.contains(e.target))
-        if(
-          !e.target.classList.contains('react-calendar__tile') &&
-          !calendarRef.current.contains(e.target) ){
-            toggleCalendar(false);
-        }
-      }
-    })
-  },[calendarRef])
+//       if(calendarRef.current){
+//         console.log(!e.target.classList.contains('react-calendar__tile'))
+//         console.log(!calendarRef.current.contains(e.target))
+//         if(
+//           !e.target.classList.contains('react-calendar__tile') &&
+//           !calendarRef.current.contains(e.target) ){
+//             toggleCalendar(false);
+//         }
+//       }
+//     })
+//   },[calendarRef])
 
-  const spanStyle = {
-    width: '50px'
-  }
+//   const spanStyle = {
+//     width: '50px'
+//   }
 
-  const onClickRegister = async () => {
-    if (!nickname) {
-      alert("닉네임을 입력해 주세요");
-      return;
-    }
-    else if (date.getTime() === new Date('1990/1/1').getTime()) {
-      if (!window.confirm("생일이 초기값입니다. 등록하시겠습니까?")) {
-        return;
-      }
-    }
+//   const onClickRegister = async () => {
+//     if (!nickname) {
+//       alert("닉네임을 입력해 주세요");
+//       return;
+//     }
+//     else if (date.getTime() === new Date('1990/1/1').getTime()) {
+//       if (!window.confirm("생일이 초기값입니다. 등록하시겠습니까?")) {
+//         return;
+//       }
+//     }
 
-    const req = { nickname, date, isSolar };
-    const ret = await axios.post('http://localhost:1111/register', req)
-    if (ret.data.code === '200') {
-      alert("등록되었습니다");
-      setNickname('');
-      setBirthData(e => e.concat(req));
-    }
-    else if (ret.data.code === '401') {
-      alert("이미 등록된 닉네임입니다");
-    }
-  }
+//     const req = { nickname, date, isSolar };
+//     const ret = await axios.post('http://localhost:1111/register', req)
+//     if (ret.data.code === '200') {
+//       alert("등록되었습니다");
+//       setNickname('');
+//       setBirthData(e => e.concat(req));
+//     }
+//     else if (ret.data.code === '401') {
+//       alert("이미 등록된 닉네임입니다");
+//     }
+//   }
 
-  return <div className='register'>
-    <div className='regi-header'>
-      등록하기
-    </div>
+//   return <div className='register'>
+//     <div className='regi-header'>
+//       등록하기
+//     </div>
 
-    <div>
-      <span style={spanStyle}>닉네임</span>
-      <input value={nickname} onChange={e => setNickname(e.target.value)} />
-    </div>
+//     <div>
+//       <span style={spanStyle}>닉네임</span>
+//       <input value={nickname} onChange={e => setNickname(e.target.value)} />
+//     </div>
 
-    <div>
-      <span style={spanStyle}>생일</span>
-      <input
-        id='birthinput'
-        readOnly
-        onClick={() => toggleCalendar(true)}
-        placeholder='생일'
-        value={date.toLocaleDateString()} />
-      {
-        isCalendar && <Calendar
-          inputRef={calendarRef}
-          calendarType={'US'}
-          className={'abs regical'}
-          defaultValue={date}
-          defaultView='decade'
-          onChange={(date) => {
-            toggleCalendar(e => false);
-            onChange(date);
-          }} />}
-    </div>
+//     <div>
+//       <span style={spanStyle}>생일</span>
+//       <input
+//         id='birthinput'
+//         readOnly
+//         onClick={() => toggleCalendar(true)}
+//         placeholder='생일'
+//         value={date.toLocaleDateString()} />
+//       {
+//         isCalendar && <Calendar
+//           inputRef={calendarRef}
+//           calendarType={'US'}
+//           className={'abs regical'}
+//           defaultValue={date}
+//           defaultView='decade'
+//           onChange={(date) => {
+//             toggleCalendar(e => false);
+//             onChange(date);
+//           }} />}
+//     </div>
 
-    <div>
-      <label>
-        <input id='solar' checked value={isSolar} onChange={() => setSolar(true)} name='type' type='radio' />
-          양력
-          </label>
-      <label>
-        <input id='lunar' value={!isSolar} onChange={() => setSolar(false)} name='type' type='radio' />
-          음력
-          </label>
-    </div>
+//     <div>
+//       <label>
+//         <input id='solar' checked value={isSolar} onChange={() => setSolar(true)} name='type' type='radio' />
+//           양력
+//           </label>
+//       <label>
+//         <input id='lunar' value={!isSolar} onChange={() => setSolar(false)} name='type' type='radio' />
+//           음력
+//           </label>
+//     </div>
 
 
-    <div>
-      <button onClick={onClickRegister} >등록</button>
-    </div>
+//     <div>
+//       <button onClick={onClickRegister} >등록</button>
+//     </div>
 
-  </div>
-}
+//   </div>
+// }
 
 function PeopleList({birthData}) {
   birthData.sort((a,b) => {
@@ -190,7 +190,7 @@ function PeopleList({birthData}) {
 
     return <tr key={e[1]}>
       <td>{e[1]}</td>
-      <td>{month + '월 ' + day + '일' + (e[3] == "양력" ? "" : ' (음력)')}</td>
+      <td>{month + '월 ' + day + '일' + (e[3] === "양력" ? "" : ' (음력)')}</td>
     </tr>
   })
 

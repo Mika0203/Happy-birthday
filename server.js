@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const app = express();
-const mongodb = require('./db');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { default: axios } = require('axios');
@@ -14,7 +13,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 var server = http.createServer(app);
-mongodb.construct()
 
 
 const GetBirthData = async () => {
