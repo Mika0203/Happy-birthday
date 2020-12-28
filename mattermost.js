@@ -15,8 +15,8 @@ function base64_encode(file) {
 module.exports = {
     init(data) {
         this.birthdata = data;
-        this.send_month_birth();
-        this.send_day_birth();
+        // this.send_month_birth();
+        // this.send_day_birth();
 
         const scheduleOfDay = '5 9 * * 1-5';
         schedule.scheduleJob(scheduleOfDay, () => this.send_day_birth());
@@ -37,10 +37,15 @@ module.exports = {
         });
     },
 
+    set_data(data){
+        this.birthdata = data;
+    },
+
     send(msg) {
         mattermost.send({
             text: msg,
-            channel: '#test',
+            // channel: '#test',
+            channel: '#c8q3gchtp',
             username: '생일축하 봇',
             icon_url: 'data:image/png;base64,' + base64_encode('./public/img/cake.png'),
         })

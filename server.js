@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const { default: axios } = require('axios');
 const cheerio = require('cheerio');
 const mattermost = require('./mattermost');
-
+const schedule = require('node-schedule');
 let birthdata = [];
 
 app.use(cors());
@@ -40,11 +40,11 @@ const GetBirthData = async () => {
     return birthdata;
 }
 
-
-
 (async function(){
+    schedule.scheduleJob('* 9 * * *', async () => mattermost.set_data(await GetBirthData()))
     mattermost.init(await GetBirthData());
 })()
+
 // app.post('/register', async (req, res) => {
 //     const ret = await mongodb.register(req.body);
 //     res.send(ret);
