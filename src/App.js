@@ -19,7 +19,7 @@ function App() {
     <div className="App">
       <Header />
       <MainView birthData={birthData} />
-      <RegisterForm setBirthData={setBirthData} />
+      {/* <RegisterForm setBirthData={setBirthData} /> */}
       <PeopleList birthData={birthData} />
     </div>
   );
@@ -32,15 +32,15 @@ function Header(props) {
 }
 
 function MainView({ birthData }) {
+
   const findBirthday = (data, _month, _day) => {
     let list = [];
-
     data.forEach(e => {
-      const month = new Date(e.date).getMonth() + 1;
-      const day = new Date(e.date).getDate();
+      const month = new Date(e[2]).getMonth() + 1;
+      const day = new Date(e[2]).getDate();
       if (month === _month && day === _day) {
         list.push(
-          <div key={e.nickname}><img width='12' height='12' alt='cake' src="./img/cake.png" /> {e.nickname}</div>);
+          <div key={e[1]}><img width='12' height='12' alt='cake' src="./img/cake.png" /> {e[1]}</div>);
       }
     });
     return list;
@@ -79,7 +79,7 @@ function RegisterForm({ setBirthData }) {
         calendarRef.current.contains(e.target) 
       }
 
-      if(e.target.id == 'birthinput')
+      if(e.target.id === 'birthinput')
         return;
 
       if(calendarRef.current){
@@ -173,8 +173,8 @@ function RegisterForm({ setBirthData }) {
 
 function PeopleList({birthData}) {
   birthData.sort((a,b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
+    const dateA = new Date(a[2]);
+    const dateB = new Date(b[2]);
     dateA.setFullYear(1990);
     dateB.setFullYear(1990);
     if(dateA.getTime() > dateB.getTime())
@@ -185,12 +185,12 @@ function PeopleList({birthData}) {
   })
 
   const list = birthData.map(e => {
-    const month = new Date(e.date).getMonth() + 1;
-    const day = new Date(e.date).getDate();
+    const month = new Date(e[2]).getMonth() + 1;
+    const day = new Date(e[2]).getDate();
 
-    return <tr key={e.nickname}>
-      <td>{e.nickname}</td>
-      <td>{month + '월 ' + day + '일' + (e.isSolar ? "" : ' (음력)')}</td>
+    return <tr key={e[1]}>
+      <td>{e[1]}</td>
+      <td>{month + '월 ' + day + '일' + (e[3] == "양력" ? "" : ' (음력)')}</td>
     </tr>
   })
 
