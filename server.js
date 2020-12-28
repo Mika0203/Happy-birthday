@@ -56,6 +56,6 @@ app.get('/getData', async (req, res) => {
     res.send(data);
 })
 
-server.listen(1111, '0.0.0.0', function () {
+server.listen(3001, '0.0.0.0', function () {
     console.log('Server listen on port ' + server.address().port);
 });
