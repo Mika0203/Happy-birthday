@@ -1,0 +1,15 @@
+
+version: "1"
+services:
+  server:
+    restart: always
+    container_name: Happy-birthday
+    image: node
+    working_dir: /Happy-birthday
+    volumes:
+    - .:/Happy-birthday
+    entrypoint:
+    - /bin/bash
+    ports:
+    - "3000:3000"
+    tty: true
