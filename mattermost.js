@@ -18,10 +18,10 @@ module.exports = {
         // this.send_month_birth();
         // this.send_day_birth();
 
-        const scheduleOfDay = '5 9 * * 1-5';
+        const scheduleOfDay = '0 9 * * 1-5';
         schedule.scheduleJob(scheduleOfDay, () => this.send_day_birth());
 
-        const scheduleOfMonth = '5 9 * * 1-5';
+        const scheduleOfMonth = '0 9 1 * *';
         schedule.scheduleJob(scheduleOfMonth, () => {
             const today = new Date();
             if(today.getDay() == 0 || today.getDay() == 6){
@@ -45,7 +45,7 @@ module.exports = {
         mattermost.send({
             text: msg,
             // channel: '#test',
-            channel: '#c8q3gchtp',
+            channel: '#공지방',
             username: '생일축하 봇',
             icon_url: 'data:image/png;base64,' + base64_encode('./public/img/cake.png'),
         })
@@ -88,17 +88,19 @@ module.exports = {
     },
 
     send_day_birth() {
-        const today = new Date(new Date().toLocaleDateString());
-        today.setDate(today.getDate() + 1);
+        const today = new Date();
         const startDay = new Date(today);
         const dayOfWeek = today.getDay();
         
         if(dayOfWeek == 1){
             startDay.setDate( startDay.getDate() - 2);
         }
+        else{
+            startDay.setDate(startDay.getDate() - 1);
+        }
 
         const people = this.birthdata.filter(e => {
-            const newDate = new Date(new Date(e[2]).toLocaleDateString());
+            const newDate = new Date(e[2]);
             newDate.setFullYear(today.getFullYear()); 
             if(startDay.getTime() <= newDate.getTime() && today.getTime() >= newDate.getTime())
                 return e;
