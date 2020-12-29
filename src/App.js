@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     const getdata = async () => {
-      const ret = await axios.get('http://localhost:1111/getData');
+      const ret = await axios.get('http://' + window.location.hostname + ':3001/getData');
       setBirthData(ret.data);
     }
     getdata();
@@ -110,7 +110,7 @@ function MainView({ birthData }) {
 //     }
 
 //     const req = { nickname, date, isSolar };
-//     const ret = await axios.post('http://localhost:1111/register', req)
+//     const ret = await axios.post('http://' + window.location.hostname + ':3001/getData', req)
 //     if (ret.data.code === '200') {
 //       alert("등록되었습니다");
 //       setNickname('');
