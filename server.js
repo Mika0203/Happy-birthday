@@ -7,6 +7,9 @@ const { default: axios } = require('axios');
 const cheerio = require('cheerio');
 const mattermost = require('./mattermost');
 const schedule = require('node-schedule');
+
+const lunarConverter = require('./lunar-to-solar');
+
 let birthdata = [];
 
 app.use(cors());
@@ -36,12 +39,27 @@ const GetBirthData = async () => {
                 data.push(person);
         }
     })
-    birthdata = data;
+    birthdata = data.map(e => {
+        const date = e[2];
+        const split = date.split('.');
+
+        if(e[3] == '음력'){
+            const solarDate = lunarConverter.lunarToSolar(new Date().getFullYear(), split[1], split[2]);
+            const year = solarDate.solarYear;
+            const month = solarDate.solarMonth;
+            const day = solarDate.solarDay;
+            e.push(`${year}.${month}.${day}`)
+        } else {
+            e.push(e[2])
+        }
+        return e;
+    });
+    console.log(birthdata)
     return birthdata;
 }
 
 (async function(){
-    schedule.scheduleJob('* 9 * * *', async () => mattermost.set_data(await GetBirthData()))
+    schedule.scheduleJob('0 9 * * *', async () => mattermost.set_data(await GetBirthData()))
     mattermost.init(await GetBirthData());
 })()
 

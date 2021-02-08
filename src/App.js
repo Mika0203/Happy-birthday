@@ -36,8 +36,8 @@ function MainView({ birthData }) {
   const findBirthday = (data, _month, _day) => {
     let list = [];
     data.forEach(e => {
-      const month = new Date(e[2]).getMonth() + 1;
-      const day = new Date(e[2]).getDate();
+      const month = new Date(e[4]).getMonth() + 1;
+      const day = new Date(e[4]).getDate();
       if (month === _month && day === _day) {
         list.push(
           <div key={e[1]}><img width='15' height='15' alt='cake' src="./img/cake.png" /> {e[1]}</div>);
@@ -173,8 +173,8 @@ function MainView({ birthData }) {
 
 function PeopleList({birthData}) {
   birthData.sort((a,b) => {
-    const dateA = new Date(a[2]);
-    const dateB = new Date(b[2]);
+    const dateA = new Date(a[4]);
+    const dateB = new Date(b[4]);
     dateA.setFullYear(1990);
     dateB.setFullYear(1990);
     if(dateA.getTime() > dateB.getTime())
@@ -185,12 +185,12 @@ function PeopleList({birthData}) {
   })
 
   const list = birthData.map(e => {
-    const month = new Date(e[2]).getMonth() + 1;
-    const day = new Date(e[2]).getDate();
+    const month = new Date(e[4]).getMonth() + 1;
+    const day = new Date(e[4]).getDate();
 
     return <tr key={e[1]}>
       <td>{e[1]}</td>
-      <td>{month + '월 ' + day + '일' + (e[3] === "양력" ? "" : ' (음력)')}</td>
+      <td>{month + '월 ' + day + '일' + (e[3] === "양력" ? "" : '')}</td>
     </tr>
   })
 

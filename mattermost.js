@@ -18,10 +18,10 @@ module.exports = {
         // this.send_month_birth();
         // this.send_day_birth();
 
-        const scheduleOfDay = '0 9 * * 1-5';
+        const scheduleOfDay = '30 9 * * 1-5';
         schedule.scheduleJob(scheduleOfDay, () => this.send_day_birth());
 
-        const scheduleOfMonth = '0 9 1 * *';
+        const scheduleOfMonth = '30 9 * * *';
         schedule.scheduleJob(scheduleOfMonth, () => {
             const today = new Date();
             if(today.getDay() == 0 || today.getDay() == 6){
@@ -42,22 +42,23 @@ module.exports = {
     },
 
     send(msg) {
-        mattermost.send({
+        console.log(msg)
+        const z = mattermost.send({
             text: msg,
             // channel: '#test',
-            channel: '#공지방',
+            channel: '#c8q3gchtp',
             username: '생일축하 봇',
             icon_url: 'data:image/png;base64,' + base64_encode('./public/img/cake.png'),
-        })
+        }).then(console.log).catch(console.error)
     },
 
     send_month_birth() {
         const today = new Date();
         const month = today.getMonth();
-        const people = this.birthdata.filter(e => new Date(e[2]).getMonth() == month);
+        const people = this.birthdata.filter(e => new Date(e[4]).getMonth() == month);
         people.sort((a,b) => {
-            const Adate = new Date(a[2]);
-            const Bdate = new Date(b[2]);
+            const Adate = new Date(a[4]);
+            const Bdate = new Date(b[4]);
 
             Adate.setFullYear(1990);
             Bdate.setFullYear(1990);
@@ -75,7 +76,7 @@ module.exports = {
             msg += '|닉네임 | 생일 | \n \
             |----------|:-------------:|------:| \n';
             people.forEach(element => {
-                const newDate = new Date(element[2]);
+                const newDate = new Date(element[4]);
                 msg += '|' + element[1] + '|' + (newDate.getMonth() + 1) + '월 ' + newDate.getDate() + '일' + '\n';
             });
         } 
@@ -83,7 +84,7 @@ module.exports = {
             msg += '# 이번 달은 생일자가 없습니다 ㅜ_ㅜ';
         }
 
-        msg += `[페이지 보기](${homepage})`
+        msg += `[달력 보기](${homepage})`
         this.send(msg);
     },
 
@@ -100,15 +101,15 @@ module.exports = {
         }
 
         const people = this.birthdata.filter(e => {
-            const newDate = new Date(e[2]);
+            const newDate = new Date(e[4]);
             newDate.setFullYear(today.getFullYear()); 
             if(startDay.getTime() <= newDate.getTime() && today.getTime() >= newDate.getTime())
                 return e;
         });
 
         people.sort((a,b) => {
-            const Adate = new Date(a[2]);
-            const Bdate = new Date(b[2]);
+            const Adate = new Date(a[4]);
+            const Bdate = new Date(b[4]);
 
             Adate.setFullYear(1990);
             Bdate.setFullYear(1990);
@@ -130,7 +131,7 @@ module.exports = {
                 msg += '|닉네임 | 생일 | \n \
                 |----------|:-------------:|------:| \n';
                 people.forEach(element => {
-                    const newDate = new Date(element[2]);
+                    const newDate = new Date(element[4]);
                     msg += '|' + element[1] + '|' + (newDate.getMonth() + 1) + '월 ' + newDate.getDate() + '일' + '\n';
                 });
             
