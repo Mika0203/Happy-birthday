@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { useEffect } from "react";
 import api from "../../api";
 import { useState } from "react";
+import config from "../../asset/config";
 
 
 //birthList
@@ -111,8 +112,7 @@ interface ImageContainerProps {
 function ImageContainer({imgsrc} : ImageContainerProps) {
     return <div>
         {
-            imgsrc?.map(src => 
-                <img src={src}/>)
+            imgsrc?.map(src => <img src={`${config.serverURL}${src}`}/>)
         }
     </div>
 }

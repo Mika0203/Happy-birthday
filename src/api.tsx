@@ -1,6 +1,7 @@
 import axios from 'axios';
+import config from './asset/config';
 
-const url = `http://${window.location.hostname}:3001`;
+const url = config.serverURL;
 
 const api = {
     getBirthData: async () => {

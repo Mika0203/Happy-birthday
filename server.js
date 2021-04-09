@@ -74,8 +74,6 @@ app.get('/birth-data', async (req, res) => {
     res.send(data);
 });
 
-
-
 app.post('/posting', upload.any(), async(req, res) => {
     const data = JSON.parse(req.body.data);
     const files = req.files;
@@ -83,11 +81,9 @@ app.post('/posting', upload.any(), async(req, res) => {
     console.log(files)
 
     const date = new Date(data.date).getTime();
-    const savepath = `${dbPath}/${date}`;
-
     makeFolder(`${dbPath}`)
-    makeFolder(savepath);
-    const imgfilepath = files.map((file,idx) => saveImg(savepath, file,idx))
+    makeFolder(`${dbPath}/${date}`);
+    const imgfilepath = files.map((file,idx) => saveImg(dbPath, date, file,idx))
     data.imgs = imgfilepath;
 
     saveJson(`${dbPath}/${date}/data.json`, data);
@@ -95,6 +91,13 @@ app.post('/posting', upload.any(), async(req, res) => {
     res.send({
         code : 'success'
     });
+});
+
+app.get('/img/:dir/:file', (req,res) => {
+    const dir = req.params.dir;
+    const file = req.params.file;
+    console.log(`${dbPath}/${dir}/${file}`);
+    res.sendFile(`${__dirname}/${dbPath}/${dir}/${file}`)
 });
 
 app.get('/post-list', async(req,res) => {
@@ -107,9 +110,9 @@ app.get('/post/:dir', async(req,res) => {
     res.send(json);
 });
 
-const saveImg = (savepath, file,idx) => {
-    fs.createWriteStream(`./${savepath}/${idx}.png`).write(file.buffer);
-    return `${savepath}/${idx}.png`;
+const saveImg = (dbpath, savepath, file,idx) => {
+    fs.createWriteStream(`./${dbpath}/${savepath}/${idx}.png`).write(file.buffer);
+    return `/img/${savepath}/${idx}.png`;
 }
 
 const makeFolder = dir => {
