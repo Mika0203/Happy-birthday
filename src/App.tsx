@@ -51,7 +51,7 @@ function App() {
 
   const makeButton = (): JSX.Element[] => {
     return buttonList.map(button =>
-      <Button onClick={() => setCurrentType(button.Type)}>
+      <Button key={button.Label} onClick={() => setCurrentType(button.Type)}>
         {button.Label}
       </Button>
     )

@@ -1,21 +1,60 @@
 import styled from "styled-components";
-import { BoardArticle, BoardList } from "../components/Board";
+import { BoardView, BoardList, BoardPosting } from "../components/Board";
 import pen from '../asset/pen.png';
 import { useState } from "react";
 import { BirthdayData } from "../interface";
+import { useEffect } from "react";
+import api from "../api";
+import { PostProps } from "../components/Board/BoardList";
 
 interface BoardPageProps {
-    birthData : BirthdayData[];
-}
+    birthData: BirthdayData[];
+};
 
-export default function BoardPage({birthData} : BoardPageProps){
-    const [postList, setPostList] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]);
+enum BoardType {
+    NULL,
+    POSTING,
+    VIEW,
+    MODIFY
+};
+
+export default function BoardPage({ birthData }: BoardPageProps) {
+    const [postList, setPostList] = useState<PostProps[]>([]);
+    const [currentBoardType, setCurrentBoardType] = useState<BoardType>(BoardType.NULL);
+    const [currentViewPost, setCurrentViewPost] = useState<number>(0);
+
+    const onClickPostItem = (dir: number) => {
+        setCurrentViewPost(dir);
+        setCurrentBoardType(BoardType.VIEW);
+    };
+
+    useEffect(() => {
+        api.getPostList().then(e => {
+            setPostList(e);
+        })
+    }, []);
+
+    let render = null;
+
+    switch (currentBoardType) {
+        case BoardType.NULL:
+            render = null;
+            break;
+        case BoardType.POSTING:
+            render = <BoardPosting birthData={birthData} />
+            break;
+        case BoardType.VIEW:
+            render = <BoardView dir={currentViewPost} />
+            break;
+    }
 
     return <ArticleWrap>
-        <BoardList postList={postList}/>
-        <BoardArticle birthData={birthData} />
-
-        <Posting src={pen} />
+        <BoardList onClickPostItem={onClickPostItem} postList={postList} />
+        {render}
+        {
+            (currentBoardType === BoardType.NULL || currentBoardType === BoardType.VIEW) &&
+                <Posting onClick={() => setCurrentBoardType(BoardType.POSTING)} src={pen} />
+        }
     </ArticleWrap>
 }
 

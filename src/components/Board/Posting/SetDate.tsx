@@ -1,4 +1,3 @@
-import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import { BirthdayData } from '../../../interface';
 import { BirthdayCalender } from '../../Calendar';
