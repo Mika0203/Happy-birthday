@@ -1,14 +1,20 @@
 import styled from "styled-components"
 import BoardItem from "./BoardItem";
 
+export interface PostProps {
+    date : string;
+    birthList : string[];
+    dir : number;
+}
 interface BoardListProps {
-    postList : number[];
+    postList : PostProps[];
+    onClickPostItem : Function;
 }
 
-export function BoardList({postList} : BoardListProps) {
+export function BoardList({postList, onClickPostItem} : BoardListProps) {
     return <ListWrap>
         <ItemWrap>
-            {postList.map(e => <BoardItem key={e} title={e.toString()} />)}
+            {postList.map(e => <BoardItem key={e.date} onClick={onClickPostItem} dir={e.dir} date={new Date(e.date)}/>)}
         </ItemWrap>
     </ListWrap>
 };

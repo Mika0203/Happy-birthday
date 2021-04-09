@@ -1,12 +1,18 @@
 import styled from "styled-components"
 
 interface BoardItemProps {
-    title : string;
+    date: Date;
+    dir: number;
+    onClick: Function;
 }
 
-export default function BoardItem({title} : BoardItemProps) {
-    return <Item>
-        {title}
+export default function BoardItem({ date, dir, onClick }: BoardItemProps) {
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString();
+    const day = date.getDate().toString();
+    return <Item onClick={() => onClick(dir)}>
+        <div>{`${year}년 ${month}월 생일파티`}</div>
+        <div>{`${month}.${day}`}</div>
     </Item>
 }
 
