@@ -23,6 +23,8 @@ export function BirthdayCalender(props: BirthdayCalenderProps) {
                         <div key={e.nickname}>
                             <img width='15' height='15' alt='cake' src={cake} />{e.nickname}
                         </div>);
+                    } else {
+                        return null;
                     }
                 })
             }
