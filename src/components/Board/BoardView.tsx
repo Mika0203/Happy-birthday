@@ -3,136 +3,122 @@ import { useEffect } from "react";
 import api from "../../api";
 import { useState } from "react";
 import config from "../../asset/config";
-
+import ReactImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
+import { BirthdayData } from "../../interface";
+import SnackListContainer, { Snack } from "./SnackList";
 
 //birthList
-//Date
+//Dateyar
 //des
 //imgs
 //snackList
 
 interface ViewProps {
-    date: any,
-    birthList: string[],
+    date: Date,
+    birthList: BirthdayData[],
     description: string,
     imgs: string[],
-    snackList: string[]
+    snackList: Snack[]
 };
-
 interface BoardViewProps {
     dir: number;
-}
+};
 
 export function BoardView({ dir }: BoardViewProps) {
-    const [currentViewData, setCurrentViewData] = useState<ViewProps>();
+    const [currentViewData, setCurrentViewData] = useState<ViewProps>({
+        date: new Date(),
+        birthList: [],
+        description: '',
+        imgs: [],
+        snackList: []
+    });
 
     useEffect(() => {
         api.getPost(dir).then(res => {
-            console.log(res.data)
+            res.data.date = new Date(res.data.date);
             setCurrentViewData(res.data);
         });
     }, [dir]);
 
+
+    // 생일자,
+    // 먹을 것
+    // 설명
     return <Container>
-        view
-        <ImageContainer imgsrc={currentViewData?.imgs}/>
+        <Title>
+            {
+                `${currentViewData?.date.getFullYear()}년 ${currentViewData?.date.getMonth() + 1}월 생일파티`
+            }
+        </Title>
+        <BirthDayList>
+            {currentViewData?.birthList.map(person => <span>{person.nickname}</span>)}
+        </BirthDayList>
+        <ImageViewer imgsrc={currentViewData?.imgs} />
+        <SnackList>
+            <tbody>
+                <tr>
+                    <th>
+                        이름
+                    </th>
+                    <th>
+                        가격
+                    </th>
+                    <th>
+                        수량
+                    </th>
+                    <th>
+                        합계
+                    </th>
+                </tr>
+                <SnackListContainer snackList={currentViewData?.snackList || []} />
+            </tbody>
+        </SnackList>
     </Container>
-    // const [date, setDate] = useState<Date>();
-    // const [snackList, setSnackList] = useState<SnackProps[]>([]);
-    // const [birthList, setBirthList] = useState<BirthdayData[]>([]);
-    // const [photoList, setPhotoList] = useState<File[]>([]);
-    // const [description, setDescription] = useState<string>('');
-
-    // useEffect(() => {
-    //     if(date){
-    //         const month = date.getMonth() + 1;
-    //         const filterd = birthData.filter(data =>parseInt(data.realBirthday.split('.')[1]) === month);
-    //         setBirthList(filterd)
-    //     }
-    // },[date, birthData]);
-
-    // const onClickUpload = () => {
-    //     if(!date){
-    //         alert("행사 실시 일자를 선택해주세요");
-    //         return;
-    //     }
-
-    //     if(!window.confirm('포스팅하시겠어요?')){
-    //         return;
-    //     }
-
-    //     const frm = new FormData();
-    //     photoList.forEach(photo => {
-    //         frm.append('photo', photo);
-    //     })
-
-    //     const data = {
-    //         date,snackList, birthList, description
-    //     };
-    //     frm.append('data', JSON.stringify(data));
-
-    //     api.posting(frm);
-    //     console.log({date,snackList, photoList : frm, birthList, description});
-    // };
-
-    // return <Container>
-    //     <Divide>
-    //         <SelectDate birthData={birthData} setDate={setDate}/>
-    //     </Divide>
-
-    //     <Divide>
-    //         <TargetUser birthdayUser={birthList} />
-    //     </Divide>
-
-    //     <Divide>
-    //         <UploadSnack 
-    //             setSnackList={setSnackList}
-    //             snackList={snackList}
-    //         />
-    //     </Divide>
-
-    //     <Divide>
-    //         <UploadPhoto photoFileList={photoList} setPhotoList={setPhotoList} />
-    //     </Divide>
-
-    //     <Divide>
-    //         <Description setValue={setDescription} value={description} />
-    //     </Divide>
-
-    //     <UploadButton onClick={onClickUpload}>
-    //         업로드
-    //     </UploadButton>
-    // </Container>
 };
 
-interface ImageContainerProps {
-    imgsrc : string[]|undefined
+interface ImageViewerProps {
+    imgsrc: string[] | undefined
 }
 
-function ImageContainer({imgsrc} : ImageContainerProps) {
-    return <div>
+function ImageViewer({ imgsrc }: ImageViewerProps) {
+    const images = imgsrc?.map(e => (
         {
-            imgsrc?.map(src => <img src={`${config.serverURL}${src}`}/>)
-        }
-    </div>
-}
+            original: config.serverURL + e,
+            thumbnail: config.serverURL + e,
+        }));
 
-const Container = styled.div`
+    return <ImageContiner>
+        <ReactImageGallery
+            infinite={false}
+            showPlayButton={false}
+            items={images || []} />
+    </ImageContiner>
+};
+
+const ImageContiner = styled.div`
+    max-width: 600px;
+    margin : auto;
+`;
+
+const Title = styled.h1`
+    text-align: center;
+    font-size: 2em;
+    margin: 10px
+`;
+
+const BirthDayList = styled.h3`
+    text-align: center;
+`;
+
+const Container = styled.article`
     flex: 1;
     padding: 25px;
     overflow: auto;
 `;
 
-const UploadButton = styled.button`
-    width: 200px;
-    height: 50px;
-    position: relative;
-    float: right;
-    margin: 10px;
-`;
-
-const Divide = styled.div`
-    padding: 10px 0px;
-    border-bottom : 1px solid #CEB0D2;
-    display: flex;
+const SnackList = styled.table`
+    border: 1px solid;
+    width: 100%;
+    text-align: center;
 `;
