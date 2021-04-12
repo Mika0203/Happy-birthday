@@ -59,6 +59,7 @@ const Container = styled.div`
 const Table = styled.table`
     width : 100%;
     border: solid 1px black;
+    text-align : center;
 `;
 
 const Tr = styled.tr`

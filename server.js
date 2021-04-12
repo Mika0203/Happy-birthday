@@ -77,9 +77,6 @@ app.get('/birth-data', async (req, res) => {
 app.post('/posting', upload.any(), async(req, res) => {
     const data = JSON.parse(req.body.data);
     const files = req.files;
-    console.log(data)
-    console.log(files)
-
     const date = new Date(data.date).getTime();
     makeFolder(`${dbPath}`)
     makeFolder(`${dbPath}/${date}`);

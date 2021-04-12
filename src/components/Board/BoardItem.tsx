@@ -11,8 +11,8 @@ export default function BoardItem({ date, dir, onClick }: BoardItemProps) {
     const month = (date.getMonth() + 1).toString();
     const day = date.getDate().toString();
     return <Item onClick={() => onClick(dir)}>
-        <div>{`${year}년 ${month}월 생일파티`}</div>
-        <div>{`${month}.${day}`}</div>
+        <Title>{`${year}년 ${month}월 생일파티`}</Title>
+        <Date>{`${month}.${day}`}</Date>
     </Item>
 }
 
@@ -20,7 +20,19 @@ const Item = styled.div`
     border-bottom : 1px solid;
     height: 50px;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     &:hover{
         background-color : rgba(0,0,0,0.1);
     }
+`;
+
+const Title = styled.span`
+    margin-left : 5px;
+`;
+
+const Date = styled.span`
+    text-align : end;
+    margin-right : 10px;
 `;

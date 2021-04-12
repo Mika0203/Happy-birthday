@@ -53,7 +53,7 @@ export default function BoardPage({ birthData }: BoardPageProps) {
         {render}
         {
             (currentBoardType === BoardType.NULL || currentBoardType === BoardType.VIEW) &&
-                <Posting onClick={() => setCurrentBoardType(BoardType.POSTING)} src={pen} />
+                <Posting title='새 글 작성' onClick={() => setCurrentBoardType(BoardType.POSTING)} src={pen} />
         }
     </ArticleWrap>
 }
