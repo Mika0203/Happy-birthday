@@ -119,6 +119,19 @@ app.delete('/post/:dir', async(req,res) => {
     });
 });
 
+app.post('/add-photo', upload.any(), async(req,res) => {
+    const date = JSON.parse(req.body.data).date;
+    const files = req.files;
+    const json = getDB(`${dbPath}/${date}/data.json`);
+    const imgs = json.imgs;
+    const imgfilepath = [...imgs, ...files.map((file,idx) => saveImg(dbPath, date, file, idx + imgs.length))]
+    json.imgs = imgfilepath;
+    saveJson(`${dbPath}/${date}/data.json`, json);
+    res.send({
+        code : 'success'
+    });
+});
+
 const saveImg = (dbpath, savepath, file,idx) => {
     fs.createWriteStream(`./${dbpath}/${savepath}/${idx}.png`).write(file.buffer);
     return `/img/${savepath}/${idx}.png`;

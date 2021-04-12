@@ -27,6 +27,15 @@ const api = {
 
     deletePost : async (dir : string) => {
         return await axios.delete(`${url}/post/${dir}`);
+    },
+
+    addPhoto : async (fileList : FormData) => {
+        return axios.post(`${url}/add-photo`, fileList , {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
     }
 };
 

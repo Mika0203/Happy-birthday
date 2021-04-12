@@ -3,8 +3,8 @@ import styled from "styled-components";
 import api from "../../api";
 import { BirthdayData } from "../../interface";
 import { BoardList, PostProps } from "./BoardList";
-import { BoardPosting } from "./BoardPosting";
-import { BoardView } from "./BoardView";
+import { BoardPosting } from "./Posting/BoardPosting";
+import { BoardView } from "./Viewer/BoardView";
 import pen from '../../asset/pen.png';
 
 enum BoardType {
@@ -51,6 +51,11 @@ export function Board({ birthData }: BoardProps) {
     const deletePost = (date : number) => {
         if(!window.confirm("게시글을 삭제하시겠어요?"))
             return;
+
+        if(window.prompt('비밀번호를 입력해주세요') !== '1122'){
+            return;
+        }
+
         api.deletePost(date.toString()).then(res => {
             if(res.data.res === 'success'){
                 setPostList((e : any) => e.filter((list : any) => list.dir !== date))
