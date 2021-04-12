@@ -1,12 +1,16 @@
 import styled from "styled-components"
 import { useEffect } from "react";
-import api from "../../api";
+import api from "../../../api";
 import { useState } from "react";
-import config from "../../asset/config";
+import config from "../../../asset/config";
 import ReactImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import { BirthdayData } from "../../interface";
-import SnackListContainer, { Snack } from "./SnackList";
+import { BirthdayData } from "../../../interface";
+import SnackListContainer, { Snack } from "../SnackList";
+import { PhotoInput } from '../../PhotoInput';
+import { Modal } from "../../Modal";
+import { AddPhotoModalContent } from "./AddPhotoModalContent";
+import { FilesToFormData } from "../../../lib";
 
 interface ViewProps {
     date: Date,
@@ -29,6 +33,9 @@ export function BoardView({ dir, deletePost}: BoardViewProps) {
         snackList: []
     });
 
+    const [fileList, setFileList] = useState<File[]>([]);
+    const [imgUrlList, setImgUrlList] = useState<string[]>([]);
+
     useEffect(() => {
         api.getPost(dir).then(res => {
             res.data.date = new Date(res.data.date);
@@ -36,12 +43,41 @@ export function BoardView({ dir, deletePost}: BoardViewProps) {
         });
     }, [dir]);
 
+    const addPhoto = () => {
+        const frm = FilesToFormData(fileList);
+        const data = { date : currentViewData.date.getTime()};
+        frm.append('data', JSON.stringify(data));
+        api.addPhoto(frm).then(res => {
+            if(res.data.code === 'success'){
+                alert('추가 완료!');
+                setImgUrlList([]);
+                setFileList([]);
+            }
+        })
+    };
+
     return <Container>
         <button onClick={() => deletePost(currentViewData.date.getTime())}>삭제</button>
-        <button>사진 추가</button>
+
+        <PhotoInput 
+            onChangeFileList={setFileList}
+            onChangeFileURL={setImgUrlList}
+            buttonTitle='사진 추가'/> 👈 찍은 사진을 업로드 해주세요
+
+        {imgUrlList.length > 0 && <Modal>
+            <AddPhotoModalContent 
+                onClickCancle={() => {
+                    setImgUrlList([]);
+                    setFileList([]);
+                }}
+                onClickSubmit={addPhoto}
+                urlList={imgUrlList} />
+        </ Modal> }
+
         <Title>
             {`${currentViewData?.date.getFullYear()}년 ${currentViewData?.date.getMonth() + 1}월 생일파티`}
         </Title>
+        
         <BirthDayList>
             {currentViewData?.birthList.map(person => {
                 const date = new Date(person.realBirthday);
@@ -110,3 +146,4 @@ const SnackList = styled.table`
     width: 100%;
     text-align: center;
 `;
+
