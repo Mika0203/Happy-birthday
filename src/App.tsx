@@ -7,10 +7,12 @@ import { BirthdayData } from './interface';
 import { GlobalStyle } from './globalstyle';
 
 import api from './api';
+import GuidePage from './page/GuidePage';
 
 enum ViewType {
   CALENDAR,
-  BOARD
+  BOARD,
+  GUIDE
 };
 
 interface ButtonProps {
@@ -26,7 +28,11 @@ const buttonList: ButtonProps[] = [
   {
     Label: '게시판',
     Type: ViewType.BOARD
-  }
+  },
+  {
+    Label: '가이드',
+    Type: ViewType.GUIDE
+  },
 ];
 
 function App() {
@@ -55,17 +61,28 @@ function App() {
         {button.Label}
       </Button>
     )
+  };
+
+  let lender = null;
+
+  switch(currentType){
+    case ViewType.CALENDAR :
+      lender = <CalendarPage birthData={birthData} />;
+      break;
+    case ViewType.BOARD :
+      lender = <BoardPage birthData={birthData} />;
+      break;
+    case ViewType.GUIDE :
+      lender = <GuidePage />;
+      break;
+
   }
 
   return (
     <Container>
       <GlobalStyle />
       <Header buttons={makeButton()} />
-      {
-        currentType === ViewType.CALENDAR
-          ? <CalendarPage birthData={birthData} />
-          : <BoardPage birthData={birthData} />
-      }
+      {lender}
     </Container>
   );
 }
