@@ -18,6 +18,10 @@ export const GlobalStyle = createGlobalStyle`
     margin : 5px;
     font-family: 'Maple';
     cursor: pointer;
+    padding: 3px 10px;
+    &:hover{
+      filter: brightness(0.9)
+    }
   }
 
   .mainCal {

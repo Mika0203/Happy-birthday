@@ -51,41 +51,38 @@ export function UploadSnack({snackList, setSnackList} : UploadSnackProps) {
                 <input value={name} onChange={e => setname(e.target.value)}/>
             </span>
             <span>
-                갯수
-                <Number value={number} onChange={e => setNumber(prev => parse(e.target.value, prev))}/>
-            </span>
-            <span>
                 가격
                 <Number value={price} onChange={e => setPrice(prev => parse(e.target.value, prev))}/>
             </span>
-            <span onClick={onClickPlus}>
-                추가
+            <span>
+                갯수
+                <Number value={number} onChange={e => setNumber(prev => parse(e.target.value, prev))}/>
             </span>
+            <button onClick={onClickPlus}>
+                추가
+            </button>
         </div>
         <div>
-            {
-                snackList.map(e => <SnackItem onClickDelete={onClickDelete} key={e.id} props={e} />)
-            }
+            {snackList.map(e => <SnackItem onClickDelete={onClickDelete} key={e.id} props={e} />)}
         </div>
     </div>
 }
 
-
 const Number = styled.input`
     width: 50px;
+    text-align: center;
 `;
 
 interface SnackItemProps {
     props : SnackProps;
     onClickDelete : Function;
-}
+};
 
 function SnackItem( {props, onClickDelete} : SnackItemProps){
     return <div>
-        <span>{props.name}</span>
-        <span>{props.number}</span>
-        <span>{props.price}</span>
-        <span>{props.number * props.price}</span>
+        <span> 
+            {`${props.name} ${props.number}개 ${props.price}원 => ${props.number * props.price}원`}
+        </span>
         <button onClick={() => onClickDelete(props)}>삭제</button>
     </div>
 };

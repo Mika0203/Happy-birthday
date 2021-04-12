@@ -22,8 +22,12 @@ const api = {
 
     getPostList: async () => {
         const res = await axios.get(`${url}/post-list`);;
-        return res.data.data;
+        return res.data;
     },
+
+    deletePost : async (dir : string) => {
+        return await axios.delete(`${url}/post/${dir}`);
+    }
 };
 
 export default api;

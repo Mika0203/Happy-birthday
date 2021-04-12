@@ -7,15 +7,15 @@ import styled from "styled-components"
 import { BirthdayData } from "../../interface";
 import { useEffect } from "react";
 import { Description } from "./Posting/SetDescription";
-import api from "../../api";
 import { UploadPhoto } from "./Posting/SetPhoto";
 
 interface BoardPostingProps {
     birthData : BirthdayData[];
+    posting : Function;
 };
 
 
-export function BoardPosting({birthData} : BoardPostingProps) {
+export function BoardPosting({birthData, posting} : BoardPostingProps) {
     const [date, setDate] = useState<Date>();
     const [snackList, setSnackList] = useState<SnackProps[]>([]);
     const [birthList, setBirthList] = useState<BirthdayData[]>([]);
@@ -34,24 +34,18 @@ export function BoardPosting({birthData} : BoardPostingProps) {
         if(!date){
             alert("행사 실시 일자를 선택해주세요");
             return;
-        }
+        };
 
         if(!window.confirm('포스팅하시겠어요?')){
             return;
-        }
+        };
 
         const frm = new FormData();
-        photoList.forEach(photo => {
-            frm.append('photo', photo);
-        })
+        photoList.forEach(photo => {frm.append('photo', photo)});
 
-        const data = {
-            date,snackList, birthList, description
-        };
+        const data = {date,snackList, birthList, description};
         frm.append('data', JSON.stringify(data));
-
-        api.posting(frm);
-        console.log({date,snackList, photoList : frm, birthList, description});
+        posting(frm,data);
     };
 
     return <Container>

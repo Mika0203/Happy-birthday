@@ -107,6 +107,18 @@ app.get('/post/:dir', async(req,res) => {
     res.send(json);
 });
 
+app.delete('/post/:dir', async(req,res) => {
+    const dir = req.params.dir;
+    fs.rmdirSync(`${dbPath}/${dir}`,{
+        recursive : true
+    });
+    popDB(dbPath, dir);
+    res.send({ 
+        code : 200,
+        res : 'success'
+    });
+});
+
 const saveImg = (dbpath, savepath, file,idx) => {
     fs.createWriteStream(`./${dbpath}/${savepath}/${idx}.png`).write(file.buffer);
     return `/img/${savepath}/${idx}.png`;
@@ -123,7 +135,7 @@ const saveJson = (path,data) => {
 
 const addDB = (path, data) => {
     if(!fs.existsSync(path))
-        fs.writeFileSync(path, JSON.stringify({data : []}));
+        fs.writeFileSync(path, JSON.stringify([]));
 
     const json = getDB(path);
     const newDate = new Date(data.date);
@@ -132,14 +144,21 @@ const addDB = (path, data) => {
         birthList : data.birthList.map(e => e.nickname),
         dir : newDate.getTime()
     };
-    json.data.push(insertData)
+    json.push(insertData)
     fs.writeFileSync(path, JSON.stringify(json));
 };
+
+const popDB = (path, date) => {
+    console.log(path,date);
+    const json = getDB(`${dbPath}/data.json`);
+    const newJson = json.filter(e => e.dir != date);
+    fs.writeFileSync(`${dbPath}/data.json`, JSON.stringify(newJson));
+}
 
 const getDB = (path) => {
     if(!fs.existsSync(path)){
         makeFolder(`${dbPath}`);
-        fs.writeFileSync(path, JSON.stringify({data : []}));
+        fs.writeFileSync(path, JSON.stringify([]));
     };
 
     const json = JSON.parse(fs.readFileSync(path));

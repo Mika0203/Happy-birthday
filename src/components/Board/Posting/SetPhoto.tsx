@@ -14,8 +14,6 @@ export function UploadPhoto({ photoFileList, setPhotoList }: PhotoProps) {
         const file = e.target as HTMLInputElement;
         if (file?.files) {
             setPhotoList(Array.from(file.files));
-            
-
             return Array.from(file.files).forEach(file => {
                 const fr = new FileReader();
                 fr.onload = () => {

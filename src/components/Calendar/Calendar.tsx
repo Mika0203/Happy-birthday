@@ -29,13 +29,13 @@ export function BirthdayCalender(props: BirthdayCalenderProps) {
                 })
             }
         </div>
-    }
+    };
 
     const birthdayIcon = (e: CalendarTileProperties): JSX.Element => {
         const month = e.date.getMonth() + 1;
         const day = e.date.getDate();
         return findBirthday(props.birthdayData, month, day);
-    }
+    };
 
     return <Container>
         <Calendar
@@ -47,6 +47,7 @@ export function BirthdayCalender(props: BirthdayCalenderProps) {
             className={props.className}
             tileContent={birthdayIcon}
             tileClassName={props.tileClassName}
+
         />
     </Container>
 }

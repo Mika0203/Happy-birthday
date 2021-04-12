@@ -8,12 +8,6 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import { BirthdayData } from "../../interface";
 import SnackListContainer, { Snack } from "./SnackList";
 
-//birthList
-//Dateyar
-//des
-//imgs
-//snackList
-
 interface ViewProps {
     date: Date,
     birthList: BirthdayData[],
@@ -23,9 +17,10 @@ interface ViewProps {
 };
 interface BoardViewProps {
     dir: number;
+    deletePost: Function;
 };
 
-export function BoardView({ dir }: BoardViewProps) {
+export function BoardView({ dir, deletePost}: BoardViewProps) {
     const [currentViewData, setCurrentViewData] = useState<ViewProps>({
         date: new Date(),
         birthList: [],
@@ -41,35 +36,28 @@ export function BoardView({ dir }: BoardViewProps) {
         });
     }, [dir]);
 
-
-    // 생일자,
-    // 먹을 것
-    // 설명
     return <Container>
+        <button onClick={() => deletePost(currentViewData.date.getTime())}>삭제</button>
+        <button>사진 추가</button>
         <Title>
-            {
-                `${currentViewData?.date.getFullYear()}년 ${currentViewData?.date.getMonth() + 1}월 생일파티`
-            }
+            {`${currentViewData?.date.getFullYear()}년 ${currentViewData?.date.getMonth() + 1}월 생일파티`}
         </Title>
         <BirthDayList>
-            {currentViewData?.birthList.map(person => <span>{person.nickname}</span>)}
+            {currentViewData?.birthList.map(person => {
+                const date = new Date(person.realBirthday);
+                return <div key={person.nickname}>
+                    {`${person.nickname} ${date.getMonth() +1}월 ${date.getDate()}일`}
+                </div>;
+            })}
         </BirthDayList>
-        <ImageViewer imgsrc={currentViewData?.imgs} />
+        {currentViewData.imgs.length > 0 && <ImageViewer imgsrc={currentViewData?.imgs} />}
         <SnackList>
             <tbody>
                 <tr>
-                    <th>
-                        이름
-                    </th>
-                    <th>
-                        가격
-                    </th>
-                    <th>
-                        수량
-                    </th>
-                    <th>
-                        합계
-                    </th>
+                    <th>이름</th>
+                    <th>가격</th>
+                    <th>수량</th>
+                    <th>합계</th>
                 </tr>
                 <SnackListContainer snackList={currentViewData?.snackList || []} />
             </tbody>
@@ -79,7 +67,7 @@ export function BoardView({ dir }: BoardViewProps) {
 
 interface ImageViewerProps {
     imgsrc: string[] | undefined
-}
+};
 
 function ImageViewer({ imgsrc }: ImageViewerProps) {
     const images = imgsrc?.map(e => (

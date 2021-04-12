@@ -17,7 +17,7 @@ export default function BoardItem({ date, dir, onClick }: BoardItemProps) {
 }
 
 const Item = styled.div`
-    border-bottom : 1px solid;
+    border-bottom : 1px solid white;
     height: 50px;
     cursor: pointer;
     display: flex;
