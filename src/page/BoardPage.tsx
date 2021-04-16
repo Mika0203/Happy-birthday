@@ -1,5 +1,5 @@
 import { BirthdayData } from "../interface";
-import { Board } from '../components/Board/Board';
+import { Board } from '../components/Board';
 interface BoardPageProps {
     birthData: BirthdayData[];
 };

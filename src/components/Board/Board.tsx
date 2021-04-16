@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import api from "../../api";
 import { BirthdayData } from "../../interface";
-import { BoardList, PostProps } from "./BoardList";
+import { BoardList, PostProps } from "./PostList";
 import { BoardPosting } from "./Posting/BoardPosting";
 import { BoardView } from "./Viewer/BoardView";
 import pen from '../../asset/pen.png';
@@ -30,7 +30,7 @@ export function Board({ birthData }: BoardProps) {
 
     useEffect(() => {
         api.getPostList().then(e => {
-            setPostList(e);
+            setPostList(e.reverse());
         })
     }, []);
 

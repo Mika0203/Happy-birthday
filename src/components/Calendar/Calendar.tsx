@@ -39,6 +39,7 @@ export function BirthdayCalender(props: BirthdayCalenderProps) {
 
     return <Container>
         <Calendar
+            minDetail={"month"}
             onClickDay={(date) => props.onClick && props.onClick(date)}
             navigationAriaLabel={'asd'}
             prev2Label={null}
@@ -47,7 +48,6 @@ export function BirthdayCalender(props: BirthdayCalenderProps) {
             className={props.className}
             tileContent={birthdayIcon}
             tileClassName={props.tileClassName}
-
         />
     </Container>
 }

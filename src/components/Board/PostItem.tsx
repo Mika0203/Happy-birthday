@@ -12,9 +12,9 @@ export default function BoardItem({ date, dir, onClick }: BoardItemProps) {
     const day = date.getDate().toString();
     return <Item onClick={() => onClick(dir)}>
         <Title>{`${year}년 ${month}월 생일파티`}</Title>
-        <Date>{`${month}.${day}`}</Date>
+        <Date>{`${month}월 ${day}일`}</Date>
     </Item>
-}
+};
 
 const Item = styled.div`
     border-bottom : 1px solid white;

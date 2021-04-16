@@ -2,7 +2,6 @@ const express = require('express');
 const http = require('http');
 const app = express();
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const { default: axios } = require('axios');
 const cheerio = require('cheerio');
 const schedule = require('node-schedule');
@@ -60,7 +59,6 @@ const GetBirthData = async () => {
         }
         return e;
     });
-    console.log(birthdata)
     return birthdata;
 }
 
@@ -93,7 +91,6 @@ app.post('/posting', upload.any(), async(req, res) => {
 app.get('/img/:dir/:file', (req,res) => {
     const dir = req.params.dir;
     const file = req.params.file;
-    console.log(`${dbPath}/${dir}/${file}`);
     res.sendFile(`${__dirname}/${dbPath}/${dir}/${file}`)
 });
 
@@ -124,11 +121,13 @@ app.post('/add-photo', upload.any(), async(req,res) => {
     const files = req.files;
     const json = getDB(`${dbPath}/${date}/data.json`);
     const imgs = json.imgs;
-    const imgfilepath = [...imgs, ...files.map((file,idx) => saveImg(dbPath, date, file, idx + imgs.length))]
+    const newImgesPath = files.map((file,idx) => saveImg(dbPath, date, file, idx + imgs.length))
+    const imgfilepath = [...imgs, ...newImgesPath];
     json.imgs = imgfilepath;
     saveJson(`${dbPath}/${date}/data.json`, json);
     res.send({
-        code : 'success'
+        code : 'success',
+        filepath : newImgesPath
     });
 });
 
@@ -162,7 +161,6 @@ const addDB = (path, data) => {
 };
 
 const popDB = (path, date) => {
-    console.log(path,date);
     const json = getDB(`${dbPath}/data.json`);
     const newJson = json.filter(e => e.dir != date);
     fs.writeFileSync(`${dbPath}/data.json`, JSON.stringify(newJson));

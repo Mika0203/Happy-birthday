@@ -37,5 +37,10 @@ export const GlobalStyle = createGlobalStyle`
     margin-top: 5px;
     display: grid;
   }
+
+  .react-calendar__navigation button{
+    background-color: unset;
+    color: black;
+  }
 `;
 

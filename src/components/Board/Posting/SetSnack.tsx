@@ -34,6 +34,7 @@ export function UploadSnack({snackList, setSnackList} : UploadSnackProps) {
         setPrice(0);
     };
 
+    console.log('!');
     const onClickDelete = (delSnack : SnackProps) => {
         setSnackList((e : SnackProps[]) => e.filter(snack => snack.id !== delSnack.id));
     };
@@ -50,10 +51,12 @@ export function UploadSnack({snackList, setSnackList} : UploadSnackProps) {
                 이름
                 <input value={name} onChange={e => setname(e.target.value)}/>
             </span>
+
             <span>
                 가격
                 <Number value={price} onChange={e => setPrice(prev => parse(e.target.value, prev))}/>
             </span>
+
             <span>
                 갯수
                 <Number value={number} onChange={e => setNumber(prev => parse(e.target.value, prev))}/>
