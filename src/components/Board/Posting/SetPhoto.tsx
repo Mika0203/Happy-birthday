@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { PhotoInput } from '../../PhotoInput';
 import styled from "styled-components";
 

@@ -1,15 +1,15 @@
 import styled from "styled-components"
-import BoardItem from "./BoardItem";
+import BoardItem from "./PostItem";
 
 export interface PostProps {
     date : string;
     birthList : string[];
     dir : number;
-}
+};
 interface BoardListProps {
     postList : PostProps[];
     onClickPostItem : Function;
-}
+};
 
 export function BoardList({postList, onClickPostItem} : BoardListProps) {
     return <ListWrap>

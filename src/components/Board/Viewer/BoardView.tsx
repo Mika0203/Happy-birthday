@@ -24,7 +24,7 @@ interface BoardViewProps {
     deletePost: Function;
 };
 
-export function BoardView({ dir, deletePost}: BoardViewProps) {
+export function BoardView({ dir, deletePost }: BoardViewProps) {
     const [currentViewData, setCurrentViewData] = useState<ViewProps>({
         date: new Date(),
         birthList: [],
@@ -49,7 +49,14 @@ export function BoardView({ dir, deletePost}: BoardViewProps) {
         frm.append('data', JSON.stringify(data));
         api.addPhoto(frm).then(res => {
             if(res.data.code === 'success'){
-                alert('추가 완료!');
+                alert('등록 완료!');
+                setCurrentViewData(currentViewData => {
+                    const currentData = currentViewData;
+                    return {
+                        ...currentData,
+                        imgs : [...currentData.imgs, ...imgUrlList]
+                    };
+                });
                 setImgUrlList([]);
                 setFileList([]);
             }

@@ -1,12 +1,13 @@
-import { Header } from './components/Header';
+import api from './api';
 import styled from 'styled-components';
+
+import { Header } from './components/Header';
 import { useEffect, useState } from 'react';
-import CalendarPage from './page/CalendarPage';
-import BoardPage from './page/BoardPage';
 import { BirthdayData } from './interface';
 import { GlobalStyle } from './globalstyle';
 
-import api from './api';
+import CalendarPage from './page/CalendarPage';
+import BoardPage from './page/BoardPage';
 import GuidePage from './page/GuidePage';
 
 enum ViewType {
