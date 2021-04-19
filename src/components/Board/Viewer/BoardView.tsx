@@ -49,7 +49,7 @@ export function BoardView({ dir, deletePost }: BoardViewProps) {
         frm.append('data', JSON.stringify(data));
         api.addPhoto(frm).then(res => {
             if(res.data.code === 'success'){
-                alert('등록 완료!');
+                alert('등록 완료! 사진은 페이지에 새로 들어와야 보여요! 업데이트 전 입니다');
                 setCurrentViewData(currentViewData => {
                     const currentData = currentViewData;
                     return {
