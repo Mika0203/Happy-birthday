@@ -28,7 +28,7 @@ export function PhotoInput({onChangeFileList, onChangeFileURL, buttonTitle } : P
     };
 
     return <>
-        <input ref={input} hidden onChange={onUploadPhoto} type='file' multiple />
+        <input ref={input} hidden onChange={onUploadPhoto} type='file' multiple accept="image/x-png,image/gif,image/jpeg" />
         <button onClick={() => input.current?.click()}>
             {buttonTitle}
         </button>
