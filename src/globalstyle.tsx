@@ -42,5 +42,9 @@ export const GlobalStyle = createGlobalStyle`
     background-color: unset;
     color: black;
   }
+
+  .image-gallery-content .image-gallery-slide .image-gallery-image{
+    height: 75vh;
+  }
 `;
 

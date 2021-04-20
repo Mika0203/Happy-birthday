@@ -32,7 +32,7 @@ export function PeopleList(props: PeopleListProps) {
         <Table>
             <tbody>
                 <tr>
-                    생일 등록을 하신 후 하루 뒤에 업데이트 됩니다
+                    생일 등록을 하면<br/>하루 뒤에 업데이트 됩니다
                 </tr>
                 <tr>
                     <td>
@@ -53,7 +53,7 @@ export function PeopleList(props: PeopleListProps) {
 }
 
 const Container = styled.div`
-    width : 200px;
+    width : 300px;
     padding : 5px;
     margin: auto;
     margin-top : 20px;
