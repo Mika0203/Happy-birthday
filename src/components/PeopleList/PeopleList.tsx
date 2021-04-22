@@ -32,9 +32,6 @@ export function PeopleList(props: PeopleListProps) {
         <Table>
             <tbody>
                 <tr>
-                    생일 등록을 하면<br/>하루 뒤에 업데이트 됩니다
-                </tr>
-                <tr>
                     <td>
                         닉네임
                     </td>
