@@ -25,7 +25,7 @@
     "typescript": "^4.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "pm2 start server.js && serve -l 3000 -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

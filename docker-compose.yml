@@ -8,8 +8,9 @@ services:
     working_dir: /Happy-birthday
     volumes:
     - .:/Happy-birthday
-    entrypoint:
-    - /bin/bash
+#    entrypoint:
+#    - /bin/bash
+    command : run.sh
     environment:
       - TZ=Asia/Seoul
     ports:
